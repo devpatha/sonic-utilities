@@ -55,6 +55,7 @@ class PacketAction:
     DROP    = "DROP"
     FORWARD = "FORWARD"
     ACCEPT  = "ACCEPT"
+    COPY    = "COPY"
 
 
 class Stage:
@@ -448,6 +449,8 @@ class AclLoader(object):
             rule_props[AclAction.PACKET] = PacketAction.DROP
         elif rule.actions.config.forwarding_action == "REJECT":
             rule_props[AclAction.PACKET] = PacketAction.DROP
+        elif rule.actions.config.forwarding_action == "COPY":
+            rule_props[AclAction.PACKET] = PacketAction.COPY
         else:
             raise AclLoaderException("Unknown rule action {} in table {}, rule {}".format(
                 rule.actions.config.forwarding_action, table_name, rule_idx))
